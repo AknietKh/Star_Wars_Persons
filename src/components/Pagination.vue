@@ -81,7 +81,9 @@ export default {
   },
   methods: {
     changePage(page) {
-      this.$store.commit('CHANGE_PAGE', page)
+      this.$router.push(`?page=${page}`);
+
+      this.$store.commit('CHANGE_PAGE', page);
       this.$store.dispatch('GET_CARDS')
     }
   }
@@ -92,12 +94,12 @@ export default {
 <style lang="scss" scoped>
 .pagination {
   width: 100%;
-  height: 44px;
+  height: 4.4rem;
   display: flex;
   justify-content: space-between;
-  margin: 30px auto 30px;
-  padding: 0 15px;
-  max-width: 1280px;
+  margin: 3rem auto 3rem;
+  padding: 0 1.5rem;
+  max-width: 128rem;
 
   &__left {
     width: 20%;
@@ -107,32 +109,23 @@ export default {
   &__right {
     width: 20%;
     float: right;
-
-    a {
-      float: right;
-    }
-  }
-
-  a, span {
-    display: block;
-    text-align: center;
-    font-family: Helvetica, Arial, sans-serif;
-    font-weight: 300;
-    line-height: 42px;
-    height: 44px;
-    color: #999;
-    font-size: 18px;
   }
 
   a {
-    padding: 0 20px;
-    max-width: 160px;
+    display: block;
+    max-width: 16rem;
+    height: 4.4rem;
+    text-align: center;
+    font-weight: 300;
+    font-size: 1.8rem;
+    line-height: 4.2rem;
+    color: #999999;
+    padding: 0 2rem;
     background-color: transparent;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     text-decoration: none;
-    margin: 0 6px;
-    transition: all .2s ease-in-out;
+    margin: 0 0.6rem;
 
     &.current {
       border-color: #607d8b;
