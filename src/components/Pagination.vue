@@ -81,10 +81,16 @@ export default {
   },
   methods: {
     changePage(page) {
-      this.$router.push(`?page=${page}`);
+      const { query } = this.$route;
+      
+      if (query.search) {
+        this.$router.push(`?search=${query.search}&page=${page}`)
+      } else {
+        this.$router.push(`?page=${page}`);
+      }
 
       this.$store.commit('CHANGE_PAGE', page);
-      this.$store.dispatch('GET_CARDS')
+      this.$store.dispatch('GET_CARDS', this.$route.query);
     }
   }
 

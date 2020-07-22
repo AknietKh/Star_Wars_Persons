@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -57,22 +58,14 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    GET_CARDS({ commit }) {
-      return new Promise((resolve, reject) => {
-        const currentPage = this.state.currentPage;
-
+    GET_CARDS({ commit }, params = { page: 1}) {
+      return new Promise((resolve, reject) => {        
         commit('GET_CARDS_REQUEST');
-        
-        fetch(`${apiUrl}/people/?page=${currentPage}`)
+                
+        axios.get(`${apiUrl}/people`, { params })
           .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error('Данные не были получены, ошибка: ' + response.status);
-            }
-          })
-          .then(cards => {
-            console.log('cards: ', cards);
+            const cards = response.data;
+            
             const data = {
               totalCards: cards.count,
               cards: addIdInCards(cards.results)
@@ -88,20 +81,15 @@ export default new Vuex.Store({
           })
       })
     },
-    FIND_PERSON({ commit }, { person }) {
+    FIND_PERSON({ commit }, params) {
       return new Promise((resolve, reject) => {
+        commit('CHANGE_PAGE', 1)
         commit('FIND_PERSON_REQUEST');
 
-        fetch(`${apiUrl}/people/?search=${person}`)
+        axios.get(`${apiUrl}/people`, { params })
           .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error('Данные не были получены, ошибка: ' + response.status);
-            }
-          })
-          .then(cards => {
-            console.log('cards: ', cards);
+            const cards = response.data;
+            
             const data = {
               totalCards: cards.count,
               cards: addIdInCards(cards.results)

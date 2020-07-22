@@ -23,9 +23,9 @@ export default {
   methods: {
     findPerson() {
       const person = this.searchValue;
-      console.log('value: ', person);
+      this.$router.push(`?search=${person}`)
 
-      this.$store.dispatch('FIND_PERSON', { person })
+      this.$store.dispatch('FIND_PERSON', this.$route.query)
         .then(data => {
           this.searchValue = ''
 

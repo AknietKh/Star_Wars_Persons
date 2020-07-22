@@ -27,12 +27,13 @@ export default {
   },
   created: function() {
     const current = parseInt(this.$route.query.page);
+    const { query } = this.$route;
     
     if (current) {
       this.$store.commit('CHANGE_PAGE', current);
     }
-    
-    this.$store.dispatch('GET_CARDS');
+
+    this.$store.dispatch('GET_CARDS', query);
   }
 }
 </script>
