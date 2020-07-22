@@ -13,7 +13,7 @@ const addIdInCards = function(data) {
 
     return item;
   })
-  
+
   return result;
 }
 
@@ -22,7 +22,7 @@ export default new Vuex.Store({
     personCards: [],
     favorites: [],
     totalCards: 0,
-    currentPage: 3,
+    currentPage: 1,
     perPage: 10,
     status: '',
     error: null,
@@ -42,6 +42,18 @@ export default new Vuex.Store({
     },
     CHANGE_PAGE(state, page) {
       state.currentPage = page;
+    },
+    FIND_PERSON_REQUEST(state) {
+      state.status = 'request';
+    },
+    FIND_PERSON_SUCCESS(state, { cards, totalCards }) {
+      state.status = 'success';
+      state.personCards = cards;
+      state.totalCards = totalCards;
+    },
+    FIND_PERSON_FAILED(state, error) {
+      state.status = 'error';
+      state.error = error;
     }
   },
   actions: {
@@ -60,21 +72,51 @@ export default new Vuex.Store({
             }
           })
           .then(cards => {
+            console.log('cards: ', cards);
             const data = {
               totalCards: cards.count,
               cards: addIdInCards(cards.results)
-            }
+            };
 
-            commit('GET_CARDS_SUCCESS', data)
+            commit('GET_CARDS_SUCCESS', data);
             resolve(cards);
           })
           .catch(err => {
-            commit('GET_CARDS_FAILED', err)
+            commit('GET_CARDS_FAILED', err);
 
             reject(err);
           })
       })
     },
+    FIND_PERSON({ commit }, { person }) {
+      return new Promise((resolve, reject) => {
+        commit('FIND_PERSON_REQUEST');
+
+        fetch(`${apiUrl}/people/?search=${person}`)
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error('Данные не были получены, ошибка: ' + response.status);
+            }
+          })
+          .then(cards => {
+            console.log('cards: ', cards);
+            const data = {
+              totalCards: cards.count,
+              cards: addIdInCards(cards.results)
+            };
+
+            commit('FIND_PERSON_SUCCESS', data);
+            resolve(cards);
+          })
+          .catch(err => {
+            commit('FIND_PERSON_FAILED', err);
+            reject(err);
+          })
+
+      })
+    }
   },
   getters: {
     status: state => state.status,
