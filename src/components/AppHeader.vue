@@ -2,7 +2,7 @@
   <header class="header">
     <h1 class="logo">Star Wars Persons</h1>
     <nav class="navigation">
-      <router-link to='/'>Главная</router-link>
+      <a href='#' @click.prevent='goHome()'>Главная</a>
       <router-link to='/favorite'>Избранные</router-link>
     </nav>
   </header>
@@ -11,6 +11,12 @@
 <script>
 export default {
   name: 'AppHeader',
+  methods: {
+    goHome() {
+      this.$router.push({name: 'Home'})
+      this.$store.dispatch('GET_CARDS')
+    }
+  }
 }
 </script>
 
