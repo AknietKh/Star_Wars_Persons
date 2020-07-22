@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home.vue'
+import NotFoundPage from '@/views/NotFoundPage.vue'
 
 Vue.use(VueRouter)
 
@@ -12,6 +13,10 @@ const routes = [
     meta: {
       layout: 'main'
     }
+  },
+  {
+    path: '*',
+    component: NotFoundPage
   }
 ]
 
