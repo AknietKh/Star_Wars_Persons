@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <app-search></app-search>
-    <card-container></card-container>
+    <card-container :cards='cards'></card-container>
     <app-pagination v-if="showPagination"></app-pagination>
   </div>
 </template>
@@ -23,6 +23,9 @@ export default {
       const { perPage, totalCards } = this.$store.getters;
 
       return totalCards > perPage;
+    },
+    cards() {
+      return this.$store.getters.personCards;
     }
   },
   created: function() {
