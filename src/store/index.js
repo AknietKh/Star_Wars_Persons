@@ -18,6 +18,19 @@ const addIdInCards = function(data) {
   return result;
 }
 
+const homeworldPromises = function(cards) {
+  const result = cards.map(async item => {
+    let response = await axios.get(`${item.homeworld}`);
+    const homeworld = response.data.name;
+    
+    item.home = homeworld;
+    
+    return item;
+  });
+
+  return result;
+}
+
 export default new Vuex.Store({
   state: {
     personCards: [],
@@ -33,6 +46,7 @@ export default new Vuex.Store({
       state.status = 'request';
     },
     GET_CARDS_SUCCESS(state, { cards, totalCards }) {
+      console.log('cards: ', cards);
       state.status = 'success';
       state.personCards = cards;
       state.totalCards = totalCards;
@@ -73,14 +87,33 @@ export default new Vuex.Store({
         axios.get(`${apiUrl}/people`, { params })
           .then(response => {
             const cards = response.data;
+            console.log('cards: ', cards);
             
             const data = {
               totalCards: cards.count,
               cards: addIdInCards(cards.results)
             };
 
-            commit('GET_CARDS_SUCCESS', data);
-            resolve(cards);
+            const homeworlds = homeworldPromises(data.cards);
+
+            Promise.all(homeworlds)
+              .then(cards => {
+                data.cards = cards;
+                
+                return cards;
+              })
+              .then(cards => {
+                commit('GET_CARDS_SUCCESS', data);
+                resolve(cards);
+                
+                return cards;
+              })
+              .catch(err => {
+                commit('GET_CARDS_FAILED', err);
+
+                reject(err);
+              }) 
+
           })
           .catch(err => {
             commit('GET_CARDS_FAILED', err);
@@ -103,8 +136,25 @@ export default new Vuex.Store({
               cards: addIdInCards(cards.results)
             };
 
-            commit('FIND_PERSON_SUCCESS', data);
-            resolve(cards);
+            const homeworlds = homeworldPromises(data.cards);
+
+            Promise.all(homeworlds)
+              .then(cards => {
+                data.cards = cards;
+                
+                return cards;
+              })
+              .then(cards => {
+                commit('FIND_PERSON_SUCCESS', data);
+                resolve(cards);
+                
+                return cards;
+              })
+              .catch(err => {
+                commit('FIND_PERSON_FAILED', err);
+
+                reject(err);
+              });
           })
           .catch(err => {
             commit('FIND_PERSON_FAILED', err);

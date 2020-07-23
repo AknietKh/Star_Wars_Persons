@@ -27,6 +27,10 @@
         <td>{{card.birth_year}}</td>
       </tr>
       <tr class="card-info__row">
+        <td>Родная планета:</td>
+        <td>{{card.home}}</td>
+      </tr>
+      <tr class="card-info__row">
         <td>Пол:</td>
         <td>{{card.gender}}</td>
       </tr>
@@ -93,16 +97,19 @@ export default {
     &-info {
       width: 100%;
       margin: 1rem 0;
-      font-size: 2.4rem;
-      line-height: 3rem;
+      font-size: 2rem;
+      line-height: 2.4rem;
       
       &__row {
         height: 4rem;
-
+        
         td {
           vertical-align: middle;
           text-align: left;
-          padding: 0 1rem;
+        }
+
+        :first-child {
+          padding-left:1.5rem;
         }
       }
     }
