@@ -21,7 +21,7 @@ const addIdInCards = function(data) {
 export default new Vuex.Store({
   state: {
     personCards: [],
-    favorites: [],
+    favorites: JSON.parse( localStorage.getItem('favorites') ) || [],
     totalCards: 0,
     currentPage: 1,
     perPage: 10,
@@ -55,6 +55,14 @@ export default new Vuex.Store({
     FIND_PERSON_FAILED(state, error) {
       state.status = 'error';
       state.error = error;
+    },
+    ADD_FAVORITE(state, card) {
+      state.favorites = [...state.favorites, card];
+      localStorage.setItem('favorites', JSON.stringify(state.favorites))
+    },
+    DELETE_FAVORITE(state, card) {
+      state.favorites = state.favorites.filter(item => item.id !== card.id)
+      localStorage.setItem('favorites', JSON.stringify(state.favorites))
     }
   },
   actions: {

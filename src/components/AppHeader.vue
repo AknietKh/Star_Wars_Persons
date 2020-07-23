@@ -3,7 +3,7 @@
     <h1 class="logo">Star Wars Persons</h1>
     <nav class="navigation">
       <a href='#' @click.prevent='goHome()'>Главная</a>
-      <router-link to='/favorite'>Избранные</router-link>
+      <router-link to='/favorites'>Избранные</router-link>
     </nav>
   </header>
 </template>

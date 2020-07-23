@@ -1,6 +1,22 @@
 <template>
   <div class="card">
-    <img class="card-img" :src="cardImg(card.id)" :alt="card.name">
+    <div class="card-img-wrapper">
+      <img class="card-img" :src="cardImg(card.id)" :alt="card.name">
+      <i 
+        class="material-icons card-icon" 
+        v-if='isFavorite(card)' 
+        @click='toggleFavorite(card)'
+        >
+          favorite
+      </i>
+      <i 
+        class="material-icons card-icon" 
+        v-else 
+        @click='toggleFavorite(card)'
+        >
+          favorite_border
+      </i>
+    </div>
     <table class="card-info">
       <tr class="card-info__row">
         <td>Имя:</td>
@@ -37,13 +53,25 @@ export default {
   methods: {
     cardImg(id) {
       return `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`
+    },
+    toggleFavorite(card) {
+      if (this.isFavorite(card)) {
+        this.$store.commit('DELETE_FAVORITE', card)
+      } else {
+        this.$store.commit('ADD_FAVORITE', card)
+      }
+    },
+    isFavorite(card) {
+      const { favorites } = this.$store.getters;
+      
+      return Boolean( favorites.find(fav => fav.id === card.id) );
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-    .card {
+  .card {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -56,6 +84,10 @@ export default {
       height: auto;
       max-width: 40rem;
       border-radius: 2rem 2rem 0 0;
+
+      &-wrapper {
+        position: relative;
+      }
     }
 
     &-info {
@@ -72,6 +104,23 @@ export default {
           text-align: left;
           padding: 0 1rem;
         }
+      }
+    }
+
+    &-icon {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 4rem;
+      color: #d50000;
+      cursor: pointer;
+
+      &:hover {
+        font-size: 4.5rem;
+      }
+
+      &:active {
+        font-size: 4rem;
       }
     }
   }
