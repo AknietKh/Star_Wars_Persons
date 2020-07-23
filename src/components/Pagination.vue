@@ -1,7 +1,9 @@
 <template>
   <div class="pagination">
       <div class="pagination__left">
-        <a href="#" v-if="hasPrev" @click.prevent="changePage(prevPage)">Предыдущая</a>
+        <a href="#" v-if="hasPrev" @click.prevent="changePage(prevPage)">
+          <i class="material-icons">keyboard_arrow_left</i>
+        </a>
       </div>
       <div class="pagination__mid">
         <ul>
@@ -17,7 +19,9 @@
         </ul>
       </div>
       <div class="pagination__right">
-        <a href="#" v-if="hasNext" @click.prevent="changePage(nextPage)">Следующая</a>
+        <a href="#" v-if="hasNext" @click.prevent="changePage(nextPage)">
+          <i class="material-icons">keyboard_arrow_right</i>
+        </a>
       </div>
     </div>
 </template>
@@ -108,12 +112,12 @@ export default {
   max-width: 128rem;
 
   &__left {
-    width: 20%;
+    // width: 20%;
     float: left;
   }
 
   &__right {
-    width: 20%;
+    // width: 20%;
     float: right;
   }
 
@@ -137,6 +141,11 @@ export default {
       border-color: #607d8b;
       color: #607d8b;
     }
+
+    i{
+      font-size: 4rem;
+      line-height: 4.4rem;
+    }
   }
 
   &__mid {
@@ -148,6 +157,36 @@ export default {
       display: inline-block;
     }
   }
-
 }
+
+  @media only screen and (max-width: 710px) {
+    .pagination {
+      height: 3rem;
+
+      a {
+        height: 3rem;
+        padding: 0 1rem;
+        line-height: 3rem;
+
+        i {
+          font-size: 2rem;
+          line-height: 3rem;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 426px) {
+    .pagination {
+      &__left, &__right {
+        display: none;
+      }
+
+      &__mid {
+        width: 100%;
+      }
+    }
+  }
+
+  
 </style>

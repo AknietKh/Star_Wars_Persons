@@ -38,4 +38,10 @@ export default {
     font-size: 10px;    
   }
 
+  @media only screen and (max-width: 1000px) {
+    html {
+      font-size: 7px;
+    }
+  }
+
 </style>

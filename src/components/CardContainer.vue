@@ -43,4 +43,14 @@ export default {
       margin: 0 auto;
     }
   }
+
+  @media only screen and (max-width: 710px) {
+    html {
+      font-size: 8px;
+    }
+
+    .card-container {
+      justify-content: center;
+    }
+  }
 </style>

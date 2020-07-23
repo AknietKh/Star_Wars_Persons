@@ -61,4 +61,10 @@ export default {
       }
     }
   }
+
+  @media only screen and (max-width: 550px) {
+    .logo {
+      font-size: 3rem;
+    }
+  }
 </style>

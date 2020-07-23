@@ -46,6 +46,7 @@ export default {
     &__input {
       box-sizing: border-box;
       flex-grow: 0.9;
+      width: 100%;
       height: 4rem; 
       border: 0.1rem solid #cccccc;
       border-right: none;
