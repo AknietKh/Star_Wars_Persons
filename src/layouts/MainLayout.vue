@@ -1,20 +1,30 @@
 <template>
-  <div class="main-layout">
-    <app-header></app-header>
-    <main class="main-content">
-      <router-view/>
-    </main>
+  <div>
+    <app-loader v-if='isLoading'></app-loader>
+    <div class="main-layout">
+      <app-header></app-header>
+      <main class="main-content">
+        <router-view/>
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-import AppHeader from '../components/AppHeader.vue'
+import AppHeader from '@/components/AppHeader.vue'
+import Loader from '@/components/Loader.vue'
 
 export default {
   name: 'MainLayout',
   components: {
     AppHeader,
+    'app-loader': Loader
   },
+  computed: {
+    isLoading() {
+      return this.$store.getters.status === 'request';
+    }
+  }
 }
 </script>
 
