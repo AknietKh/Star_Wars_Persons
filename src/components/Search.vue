@@ -3,7 +3,7 @@
     <input 
       type="text" 
       class="search__input" 
-      v-model="searchValue"
+      v-model.trim="searchValue"
       @keydown.enter="findPerson()"
     >
     <button class="search__btn" @click.prevent="findPerson()">
@@ -23,6 +23,11 @@ export default {
   methods: {
     findPerson() {
       const person = this.searchValue;
+      
+      if(!person.trim()) {
+        return;
+      }
+
       this.$router.push(`?search=${person}`)
 
       this.$store.dispatch('FIND_PERSON', this.$route.query)
