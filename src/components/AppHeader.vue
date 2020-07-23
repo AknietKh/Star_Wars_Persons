@@ -13,14 +13,18 @@ export default {
   name: 'AppHeader',
   methods: {
     goHome() {
+      const { isSearched } = this.$store.getters;
       const { fullPath } = this.$route;
       
       if (fullPath !== '/') {
         this.$router.push({name: 'Home'})
       }
+
+      if (isSearched) {
+        this.$store.commit('CHANGE_PAGE', 1);
+        this.$store.dispatch('GET_CARDS');
+      }
       
-      this.$store.commit('CHANGE_PAGE', 1);
-      this.$store.dispatch('GET_CARDS');
     }
   }
 }
@@ -28,7 +32,6 @@ export default {
 
 <style lang="scss" scoped>
   .header {
-    // width: 100%;
     min-height: 10rem;
     display: flex;
     justify-content: space-between;

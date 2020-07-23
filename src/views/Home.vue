@@ -29,8 +29,14 @@ export default {
     }
   },
   created: function() {
+    const { personCards, currentPage } = this.$store.getters;
     const current = parseInt(this.$route.query.page);
     const { query } = this.$route;
+
+    if (personCards.length) {
+      this.$router.push(`?page=${currentPage}`);
+      return;
+    }
     
     if (current) {
       this.$store.commit('CHANGE_PAGE', current);

@@ -40,6 +40,7 @@ export default new Vuex.Store({
     perPage: 10,
     status: '',
     error: null,
+    isSearched: false
   },
   mutations: {
     GET_CARDS_REQUEST(state) {
@@ -76,11 +77,19 @@ export default new Vuex.Store({
     DELETE_FAVORITE(state, card) {
       state.favorites = state.favorites.filter(item => item.id !== card.id)
       localStorage.setItem('favorites', JSON.stringify(state.favorites))
+    },
+    IS_SEARCHED(state, status) {
+      state.isSearched = status;
     }
   },
   actions: {
     GET_CARDS({ commit }, params = { page: 1}) {
-      return new Promise((resolve, reject) => {        
+      return new Promise((resolve, reject) => {
+        if (params.search) {
+          commit('IS_SEARCHED', true);
+        } else {
+          commit('IS_SEARCHED', false);
+        }
         commit('GET_CARDS_REQUEST');
                 
         axios.get(`${apiUrl}/people`, { params })
@@ -122,7 +131,8 @@ export default new Vuex.Store({
     },
     FIND_PERSON({ commit }, params) {
       return new Promise((resolve, reject) => {
-        commit('CHANGE_PAGE', 1)
+        commit('CHANGE_PAGE', 1);
+        commit('IS_SEARCHED', true);
         commit('FIND_PERSON_REQUEST');
 
         axios.get(`${apiUrl}/people`, { params })
@@ -169,6 +179,7 @@ export default new Vuex.Store({
     currentPage: state => state.currentPage,
     perPage: state => state.perPage,
     favorites: state => state.favorites,
-    error: state => state.error
+    error: state => state.error,
+    isSearched: state => state.isSearched
   }
 })
