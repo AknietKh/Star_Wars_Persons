@@ -13,8 +13,14 @@ export default {
   name: 'AppHeader',
   methods: {
     goHome() {
-      this.$router.push({name: 'Home'})
-      this.$store.dispatch('GET_CARDS')
+      const { fullPath } = this.$route;
+      
+      if (fullPath !== '/') {
+        this.$router.push({name: 'Home'})
+      }
+      
+      this.$store.commit('CHANGE_PAGE', 1);
+      this.$store.dispatch('GET_CARDS');
     }
   }
 }

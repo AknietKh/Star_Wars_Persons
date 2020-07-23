@@ -46,7 +46,6 @@ export default new Vuex.Store({
       state.status = 'request';
     },
     GET_CARDS_SUCCESS(state, { cards, totalCards }) {
-      console.log('cards: ', cards);
       state.status = 'success';
       state.personCards = cards;
       state.totalCards = totalCards;
@@ -87,7 +86,6 @@ export default new Vuex.Store({
         axios.get(`${apiUrl}/people`, { params })
           .then(response => {
             const cards = response.data;
-            console.log('cards: ', cards);
             
             const data = {
               totalCards: cards.count,
